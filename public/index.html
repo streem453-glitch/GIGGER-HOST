@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#17212b">
+  <title>GIGGER HOST — Telegram Bot Panel</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand"><div class="brand-icon">GH</div><div><b>GIGGER HOST</b><small>TELEGRAM CONTROL</small></div></div>
+      <nav>
+        <a class="nav-item active" href="#overview">◫ <span>Обзор</span></a>
+        <a class="nav-item" href="#connect">↔ <span>Подключение бота</span></a>
+        <a class="nav-item" href="#composer">➤ <span>Сообщения</span></a>
+        <a class="nav-item" href="#events">◷ <span>Журнал событий</span></a>
+      </nav>
+      <div class="side-bottom"><span class="status-dot"></span><span id="side-status">Бот не подключён</span><div class="side-version">v1.0</div></div>
+    </aside>
+    <main>
+      <header class="topbar"><div class="mobile-brand">GIGGER HOST</div><div class="secure-label">🔒 Защищённая панель</div></header>
+      <section class="content" id="overview">
+        <div class="hero"><div><div class="eyebrow">TELEGRAM AUTOMATION PANEL</div><h1>Управление ботом</h1><p>Подключай бота, отправляй сообщения и стикеры в пару кликов.</p></div><div class="hero-mark">✈</div></div>
+        <div class="stats">
+          <article class="stat-card"><div class="stat-icon blue">◉</div><div><span>Статус</span><strong id="bot-status">Не подключён</strong><small id="bot-name">Подключи токен ниже</small></div></article>
+          <article class="stat-card"><div class="stat-icon green">➤</div><div><span>Отправлено в этой сессии</span><strong id="sent-count">0</strong><small>Успешные отправки</small></div></article>
+          <article class="stat-card"><div class="stat-icon purple">◷</div><div><span>События</span><strong id="event-count">0</strong><small>Последние действия</small></div></article>
+        </div>
+        <section class="panel" id="connect">
+          <div class="panel-heading"><div><h2>Подключение Telegram-бота</h2><p>Токен можно получить у <b>@BotFather</b>.</p></div><span class="pill" id="connection-pill">OFFLINE</span></div>
+          <form id="connect-form">
+            <label for="token">Токен бота</label>
+            <div class="input-row"><input id="token" type="password" placeholder="123456789:AA..." autocomplete="off" required><button class="icon-button" id="toggle-token" type="button" aria-label="Показать токен">◉</button></div>
+            <div class="form-actions"><button class="primary" type="submit" id="connect-btn">Подключить бота</button><button class="secondary" id="disconnect-btn" type="button">Отключить</button></div>
+            <p class="hint">Токен хранится только в памяти сервера и удаляется при перезапуске. Не отправляй его посторонним.</p>
+          </form>
+        </section>
+        <section class="panel" id="composer">
+          <div class="panel-heading"><div><h2>Отправка сообщения</h2><p>Бот может писать только в чаты, куда у него есть доступ.</p></div><span class="pill blue-pill">SEND</span></div>
+          <form id="send-form">
+            <div class="form-grid">
+              <div class="field full"><label for="chat-id">Chat ID или @username</label><input id="chat-id" placeholder="Например: 123456789 или @mychannel" required></div>
+              <div class="field full"><label for="message">Текст сообщения</label><textarea id="message" rows="4" placeholder="Напиши что-нибудь…"></textarea><div class="mini-tools"><button type="button" class="emoji" data-emoji="🎉">🎉</button><button type="button" class="emoji" data-emoji="🔥">🔥</button><button type="button" class="emoji" data-emoji="💙">💙</button><button type="button" class="emoji" data-emoji="🚀">🚀</button><button type="button" class="emoji" data-emoji="✨">✨</button><button type="button" class="emoji" data-emoji="😎">😎</button><span class="hint">Нажми на эмодзи, чтобы добавить</span></div></div>
+              <div class="field"><label for="parse-mode">Форматирование</label><select id="parse-mode"><option value="">Обычный текст</option><option value="HTML">HTML (жирный, ссылки)</option></select></div>
+              <div class="field"><label for="sticker-id">Анимированный стикер (необязательно)</label><input id="sticker-id" placeholder="Sticker file_id из Telegram"></div>
+              <div class="field"><label for="button-text">Текст кнопки (необязательно)</label><input id="button-text" placeholder="Например: Открыть сайт"></div>
+              <div class="field"><label for="button-url">Ссылка кнопки</label><input id="button-url" type="url" placeholder="https://example.com"></div>
+            </div>
+            <div class="send-footer"><p class="hint">Стикер отправляется по <code>file_id</code>. Если заполнено поле стикера, он отправится первым.</p><button class="primary send-btn" type="submit" id="send-btn">➤ Отправить</button></div>
+          </form>
+        </section>
+        <section class="panel" id="events">
+          <div class="panel-heading"><div><h2>Журнал событий</h2><p>Последние действия панели</p></div><button class="secondary small" id="refresh-events" type="button">↻ Обновить</button></div>
+          <div id="events-list" class="events-list"><div class="empty">Войди в панель, чтобы посмотреть события.</div></div>
+        </section>
+        <footer>GIGGER HOST <span>•</span> Сделано для управления собственным Telegram-ботом</footer>
+      </section>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+  <div class="auth-overlay" id="auth-overlay">
+    <form class="auth-card" id="auth-form">
+      <div class="brand-icon large">GH</div><div class="eyebrow">ADMIN ACCESS</div><h2>Вход в GIGGER HOST</h2><p>Введи пароль панели, заданный в файле <code>.env</code>.</p>
+      <label for="admin-password">Пароль панели</label><input id="admin-password" type="password" autocomplete="current-password" required>
+      <button class="primary full-button" type="submit">Войти в панель</button><p class="hint">Пароль не сохраняется в браузере после закрытия вкладки.</p>
+    </form>
+  </div>
+  <script src="/app.js"></script>
+</body>
+</html>
